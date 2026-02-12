@@ -632,18 +632,25 @@ if __name__ == '__main__':
     parser.add_argument('-skip-agg', action='store_true', help='skip the aggregation step')
     parser.add_argument('-gpu', dest='gpu', type=int, default=None, help='specific GPU index to use (0-3). If not specified, uses default GPU behavior')
     parser.add_argument('-nfolds', dest='nfolds', type=int, default=None, help='number of cross-validation folds (default: use params.py setting)')
+    parser.add_argument('-categories', dest='categories', type=str, default=None, help='path to categories CSV file (one category per row with "category" header)')
     args = parser.parse_args()
-    
+
     # Set GPU selection if specified
     if args.gpu is not None:
         import os
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
         print(f"Using GPU {args.gpu}")
-    
+
     # Set number of folds if specified
     if args.nfolds is not None:
         import params
         params.settings['train']['nfolds'] = args.nfolds
         print(f"Using {args.nfolds} folds")
+
+    # Load categories file for the category mapper
+    if args.categories:
+        category_mapper.load(args.categories)
+    else:
+        print("WARNING: No -categories file provided. Category mapping will not work for evaluation.")
 
     main(args)

@@ -6,9 +6,20 @@ ncore = multiprocessing.cpu_count()
 
 def to_range(range_str): return range(int(range_str.split(':')[0]), int(range_str.split(':')[1]), int(range_str.split(':')[2]))
 
-# Set visible GPU to index 1 (only if not already set by command line)
-if "CUDA_VISIBLE_DEVICES" not in os.environ:
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+# Auto-detect GPU availability
+def _detect_device():
+    try:
+        import torch
+        if torch.cuda.is_available():
+            device_name = torch.cuda.get_device_name(0)
+            print(f"GPU detected: {device_name}")
+            return "cuda:0"
+    except ImportError:
+        pass
+    print("No GPU detected, using CPU")
+    return "cpu"
+
+_device = _detect_device()
 
 settings = {
     'cmd': ['prep', 'train', 'test', 'eval', 'agg'], # steps of pipeline, ['prep', 'train', 'test', 'eval', 'agg']
@@ -20,10 +31,7 @@ settings = {
         'translator': 'nllb',  # googletranslate or nllb
         'nllb': 'facebook/nllb-200-distilled-600M',
         'max_l': 1500,
-        #https://discuss.pytorch.org/t/using-torch-data-prallel-invalid-device-string/166233
-        #gpu card indexes #"cuda:1" if torch.cuda.is_available() else "cpu"
-        #cuda:1,2 cannot be used
-        'device': "cuda:0" if 'CUDA_VISIBLE_DEVICES' in os.environ.keys() else 'cpu',
+        'device': _device,
         'batch': True,
         },
     'train': {
