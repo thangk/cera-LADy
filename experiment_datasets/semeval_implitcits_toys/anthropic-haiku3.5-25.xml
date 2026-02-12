@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Reviews>
+	<Review rid="0">
+		<sentences>
+			<sentence id="0:0">
+				<text>The Mediterranean Bistro offers an incredible dining experience with its authentic flavors and warm atmosphere.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="0:1">
+				<text>Their grilled lamb was perfectly seasoned and cooked to tender perfection.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="0:2">
+				<text>The staff was attentive and friendly, making the entire evening delightful.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="1">
+		<sentences>
+			<sentence id="1:0">
+				<text>Downtown Cafe has decent coffee but the prices are a bit steep for the portion sizes.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="neutral" from="0" to="0" />
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="1:1">
+				<text>The location is convenient, right in the heart of the business district.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="2">
+		<sentences>
+			<sentence id="2:0">
+				<text>Sushi Garden is a hidden gem with incredibly fresh fish and beautiful presentation.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="2:1">
+				<text>The service was a bit slow during the dinner rush, which was slightly disappointing.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="3">
+		<sentences>
+			<sentence id="3:0">
+				<text>The Rustic Pizzeria offers authentic Italian pizza with a charming neighborhood feel.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="3:1">
+				<text>Prices are reasonable for the quality of ingredients and portion sizes.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="4">
+		<sentences>
+			<sentence id="4:0">
+				<text>Green Leaf Vegan Cafe has some interesting plant-based dishes, but the execution is hit or miss.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="4:1">
+				<text>The staff is knowledgeable about dietary restrictions and very helpful.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="4:2">
+				<text>While the location is a bit out of the way, it's worth the trip for health-conscious diners.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="5">
+		<sentences>
+			<sentence id="5:0">
+				<text>The sushi here is absolutely divine, with each piece bursting with fresh flavor and perfectly prepared.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="5:1">
+				<text>The presentation is elegant, and the chefs clearly take great pride in their craft.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="6">
+		<sentences>
+			<sentence id="6:0">
+				<text>While the restaurant has potential, the service was disappointingly slow and the staff seemed disinterested.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="6:1">
+				<text>The prices are reasonable, but the overall experience left much to be desired.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="neutral" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="7">
+		<sentences>
+			<sentence id="7:0">
+				<text>Tucked away in a charming corner of the city, this restaurant offers an incredible dining experience.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="7:1">
+				<text>The menu is creative and the dishes are consistently delicious.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="8">
+		<sentences>
+			<sentence id="8:0">
+				<text>This restaurant offers a decent meal at a fair price point.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="neutral" from="0" to="0" />
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="8:1">
+				<text>The atmosphere is comfortable, though nothing particularly stands out.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="9">
+		<sentences>
+			<sentence id="9:0">
+				<text>Absolutely terrible experience from start to finish.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:1">
+				<text>The food was cold, poorly seasoned, and seemed like it had been sitting out for hours.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:2">
+				<text>To make matters worse, the prices are completely unjustified for the quality of food and service.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="10">
+		<sentences>
+			<sentence id="10:0">
+				<text>I had an incredible dining experience at this cozy Italian restaurant last night.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="10:1">
+				<text>The pasta was perfectly al dente and the sauce was rich and flavorful.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="10:2">
+				<text>Our waiter was attentive and knowledgeable about the menu, which made the evening even more enjoyable.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="11">
+		<sentences>
+			<sentence id="11:0">
+				<text>This new downtown restaurant has a great location, but the prices are a bit steep for the portion sizes.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="11:1">
+				<text>The food was decent, though nothing particularly memorable.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="12">
+		<sentences>
+			<sentence id="12:0">
+				<text>What a disappointing experience at this supposedly high-end restaurant.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="12:1">
+				<text>The staff was rude and seemed completely disinterested in providing good service.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="12:2">
+				<text>Even the food was mediocre at best, definitely not worth the high prices.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="13">
+		<sentences>
+			<sentence id="13:0">
+				<text>This charming cafe has a warm and inviting atmosphere that makes you want to stay for hours.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="13:1">
+				<text>Their coffee is exceptional, and the pastries are freshly baked and delicious.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="14">
+		<sentences>
+			<sentence id="14:0">
+				<text>The restaurant is conveniently located in the heart of the city, making it easy to access.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="14:1">
+				<text>Prices are reasonable for the quality of food and service provided.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+</Reviews>

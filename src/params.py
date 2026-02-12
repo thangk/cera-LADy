@@ -1,0 +1,123 @@
+import random, os, multiprocessing
+
+seed = 0
+random.seed(seed)
+ncore = multiprocessing.cpu_count()
+
+def to_range(range_str): return range(int(range_str.split(':')[0]), int(range_str.split(':')[1]), int(range_str.split(':')[2]))
+
+# Set visible GPU to index 1 (only if not already set by command line)
+if "CUDA_VISIBLE_DEVICES" not in os.environ:
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
+settings = {
+    'cmd': ['prep', 'train', 'test', 'eval', 'agg'], # steps of pipeline, ['prep', 'train', 'test', 'eval', 'agg']
+    'prep': {
+        'doctype': 'snt', # 'rvw' # if 'rvw': review => [[review]] else if 'snt': review => [[subreview1], [subreview2], ...]'
+        'langaug': [''], # Disabled language augmentation
+        # nllb:  ['', 'pes_Arab', 'zho_Hans', 'deu_Latn', 'arb_Arab', 'fra_Latn', 'spa_Latn'] # list of nllb language keys to augment via backtranslation from https://github.com/facebookresearch/flores/tree/main/flores200#languages-in-flores-200 # pes_Arab (Farsi), 'zho_Hans' for Chinese (Simplified), deu_Latn (Germany), spa_Latn (Spanish), arb_Arab (Modern Standard Arabic), fra_Latn (French), ...
+        # googletranslate: ['', 'fa', 'zh-CN', 'de', 'ar', 'fr', 'es']
+        'translator': 'nllb',  # googletranslate or nllb
+        'nllb': 'facebook/nllb-200-distilled-600M',
+        'max_l': 1500,
+        #https://discuss.pytorch.org/t/using-torch-data-prallel-invalid-device-string/166233
+        #gpu card indexes #"cuda:1" if torch.cuda.is_available() else "cpu"
+        #cuda:1,2 cannot be used
+        'device': "cuda:0" if 'CUDA_VISIBLE_DEVICES' in os.environ.keys() else 'cpu',
+        'batch': True,
+        },
+    'train': {
+        'for': ['aspect_detection', 'sentiment_analysis'],
+        'ratio': 0.85, # 1 - ratio goes to test. To train on entire dataset: 0.999 and 'nfolds': 0
+        'nfolds': 5, # on the train, nfold x-valid, 0: no x-valid only test and train, 1: test, 1-fold
+        'langaug_semsim': 0.5, # backtranslated review is in training if its semantic similarity with original review is >= this value
+        'nwords': 20,
+        'qualities': ['coherence', 'perplexity'],
+        'quality': ['u_mass'],#[, 'c_v', 'c_uci', 'c_npmi'],
+        'no_extremes': None,
+                # {'no_below': 10,   # happen less than no_below number in total
+                #  'no_above': 0.9}  # happen in no_above percent of reviews
+        'rnd': {},
+        'bert': {
+            'model_type': 'bert',
+            'absa_type': 'linear',
+            'max_seq_length': 64,  # Reduced from 128 to help with memory
+            'tfm_mode': 'finetune',
+            'fix_tfm': 0,
+            'model_name_or_path': 'bert-base-uncased',
+            'data_dir': '/output/run', # This param will updated dynamically in bert.py
+            'task_name': 'lady',
+            'per_gpu_train_batch_size': 8,  # Will be dynamically adjusted if needed
+            'per_gpu_eval_batch_size': 4,  # Will be dynamically adjusted if needed
+            'learning_rate': 2e-5,
+            'do_train': True,
+            'do_eval': True,
+            'do_lower_case': True,
+            'tagging_schema': 'BIEOS',
+            'overfit': 0,
+            'overwrite_output_dir': True,
+            'eval_all_checkpoints': True,
+            'MASTER_ADDR': 'localhost',
+            'MASTER_PORT': 28512,
+            'max_steps': 500,  # Increased for proper training on real datasets
+            'gradient_accumulation_steps': 1,
+            'weight_decay': 0.0,
+            'adam_epsilon': 1e-8,
+            'max_grad_norm': 1.0,
+            'num_train_epochs': 3.0,  # Proper epochs for BERT fine-tuning
+            'warmup_steps': 0,
+            'logging_steps': 10,  # More frequent logging
+            'save_steps': 50,  # More frequent saving
+            'seed': 42,
+            'local_rank': -1,
+            'server_ip': '',
+            'server_port': '',
+            'no_cuda': False,  # Re-enable GPU
+            'config_name': '',
+            'tokenizer_name': '',
+            'evaluate_during_training': False,
+            'eval_on_testset_after_training': False,
+            'no_eval_on_testset_after_training': True,
+            'cache_dir': 'bert_cache', # This param will updated dynamically in bert.py
+
+            # test values
+            'absa_home': '/output/run/', # This param will updated dynamically in bert.py
+            'output_dir': '/output/run/', # This param will updated dynamically in bert.py
+            'ckpt': '/checkpoint-100', # This param will updated dynamically in bert.py
+            'max_seq_length': 128,
+        },
+        'fast': {'epoch': 1000, 'loss': 'ova'}, # ova use independent binary classifiers for each label for multi-label classification
+        'lda': {'passes': 1000, 'workers': ncore, 'random_state': seed, 'per_word_topics': True},
+        'btm': {'iter': 1000, 'ncore': ncore, 'seed': seed},
+        'ctm': {'num_epochs': 20, 'ncore': ncore, 'seed': seed,
+                'bert_model': 'bert-base-uncased',  # Use simpler model to avoid download timeouts
+                'contextual_size': 768,
+                'batch_size': 16,  # Increased for better gradient estimates
+                'num_samples': 10,  # Increased for better sampling
+                'inference_type': 'combined', #for 'zeroshot' from octis.ctm only
+                'verbose': True,
+                },
+        'octis.neurallda': {'num_epochs': 1000,
+                'batch_size': 100,
+                'num_samples': 10,
+                'ncore': ncore,
+                'verbose': True,
+                },
+        },
+    'test': {'h_ratio': 0.0},
+    'eval': {
+        'for': ['sentiment_analysis', 'aspect_detection'],
+        'syn': False, #synonyms be added to evaluation
+        'aspect_detection': {
+            'metrics': ['P', 'recall', 'ndcg_cut', 'map_cut', 'success'],
+            'topkstr': [1, 5, 10, 100], #range(1, 100, 10),
+        }, 
+        'sentiment_analysis': {
+            'metrics': ['recall'],
+            'topkstr': [1],
+        }
+    },
+}
+
+settings['train']['octis.ctm'] = settings['train']['ctm']
+settings['train']['octis.ctm']['inference_type'] = 'zeroshot'

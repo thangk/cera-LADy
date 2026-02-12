@@ -1,0 +1,111 @@
+Experiment 1: LLM Model Ranking Results Summary
+Generated on: Sun Jul 20 10:53:34 PM EDT 2025
+===============================================================================
+
+Architecture Model: bert
+----------------------------------------
+anthropic-haiku3.5-1300: P@5 = 0.1397959183673466
+anthropic-haiku3.5-2000: P@5 = 0.1450331125827817
+anthropic-haiku3.5-700: P@5 = 0.1396226415094338
+anthropic-sonnet4-1300: P@5 = 0.1581632653061221
+anthropic-sonnet4-2000: P@5 = 0.1820000000000005
+anthropic-sonnet4-700: P@5 = 0.1663551401869157
+google-gemini2.5flash-1300: P@5 = 0.1340101522842636
+google-gemini2.5flash-2000: P@5 = 0.1355481727574752
+google-gemini2.5flash-700: P@5 = 0.1358490566037734
+google-gemini2.5pro-1300: P@5 = 0.1230769230769228
+google-gemini2.5pro-2000: P@5 = 0.1348837209302326
+google-gemini2.5pro-700: P@5 = 0.1214953271028036
+openai-gpt3.5turbo-1300: P@5 = 0.124489795918367
+openai-gpt3.5turbo-2000: FAILED
+openai-gpt3.5turbo-700: P@5 = 0.1415094339622639
+openai-gpt4o-1300: P@5 = 0.1193877551020405
+openai-gpt4o-2000: P@5 = 0.1322259136212625
+openai-gpt4o-700: P@5 = 0.1283018867924526
+xai-grok3-1300: P@5 = 0.1408163265306119
+xai-grok3-2000: P@5 = 0.1375415282392028
+xai-grok3-700: P@5 = 0.1428571428571426
+xai-grok4-1300: P@5 = 0.1448979591836731
+xai-grok4-2000: P@5 = 0.1516556291390732
+xai-grok4-700: P@5 = 0.152830188679245
+
+Architecture Model: ctm
+----------------------------------------
+anthropic-haiku3.5-1300: P@5 = 0.1602040816326526
+anthropic-haiku3.5-2000: P@5 = 0.1695364238410601
+anthropic-haiku3.5-700: P@5 = 0.1584905660377356
+anthropic-sonnet4-1300: P@5 = 0.1714285714285711
+anthropic-sonnet4-2000: P@5 = 0.2000000000000006
+anthropic-sonnet4-700: P@5 = 0.175700934579439
+google-gemini2.5flash-1300: P@5 = 0.1614213197969539
+google-gemini2.5flash-2000: P@5 = 0.1607973421926914
+google-gemini2.5flash-700: P@5 = 0.1660377358490563
+google-gemini2.5pro-1300: P@5 = 0.1651282051282047
+google-gemini2.5pro-2000: P@5 = 0.1880398671096351
+google-gemini2.5pro-700: P@5 = 0.1775700934579436
+openai-gpt3.5turbo-1300: P@5 = 0.124489795918367
+openai-gpt3.5turbo-2000: FAILED
+openai-gpt3.5turbo-700: P@5 = 0.1415094339622639
+openai-gpt4o-1300: P@5 = 0.147959183673469
+openai-gpt4o-2000: P@5 = 0.1541528239202661
+openai-gpt4o-700: P@5 = 0.1547169811320752
+xai-grok3-1300: P@5 = 0.1663265306122445
+xai-grok3-2000: P@5 = 0.1641196013289041
+xai-grok3-700: P@5 = 0.1676190476190473
+xai-grok4-1300: P@5 = 0.1795918367346936
+xai-grok4-2000: P@5 = 0.1834437086092722
+xai-grok4-700: P@5 = 0.1905660377358488
+
+Architecture Model: btm
+----------------------------------------
+anthropic-haiku3.5-1300: P@5 = 0.1571428571428567
+anthropic-haiku3.5-2000: P@5 = 0.1642384105960269
+anthropic-haiku3.5-700: P@5 = 0.1584905660377356
+anthropic-sonnet4-1300: P@5 = 0.1795918367346937
+anthropic-sonnet4-2000: P@5 = 0.2006666666666672
+anthropic-sonnet4-700: P@5 = 0.181308411214953
+google-gemini2.5flash-1300: P@5 = 0.1624365482233498
+google-gemini2.5flash-2000: P@5 = 0.1601328903654489
+google-gemini2.5flash-700: P@5 = 0.162264150943396
+google-gemini2.5pro-1300: P@5 = 0.1692307692307688
+google-gemini2.5pro-2000: P@5 = 0.1840531561461799
+google-gemini2.5pro-700: P@5 = 0.181308411214953
+openai-gpt3.5turbo-1300: P@5 = 0.1255102040816323
+openai-gpt3.5turbo-2000: FAILED
+openai-gpt3.5turbo-700: P@5 = 0.1415094339622639
+openai-gpt4o-1300: P@5 = 0.1438775510204078
+openai-gpt4o-2000: P@5 = 0.1528239202657811
+openai-gpt4o-700: P@5 = 0.1566037735849054
+xai-grok3-1300: P@5 = 0.1642857142857139
+xai-grok3-2000: P@5 = 0.1554817275747512
+xai-grok3-700: P@5 = 0.1619047619047616
+xai-grok4-1300: P@5 = 0.1734693877551017
+xai-grok4-2000: P@5 = 0.1728476821192059
+xai-grok4-700: P@5 = 0.1943396226415091
+
+Architecture Model: rnd
+----------------------------------------
+anthropic-haiku3.5-1300: P@5 = 0.0 (zero score)
+anthropic-haiku3.5-2000: P@5 = 0.0370860927152317
+anthropic-haiku3.5-700: P@5 = 0.1169811320754715
+anthropic-sonnet4-1300: P@5 = 0.1285714285714283
+anthropic-sonnet4-2000: P@5 = 0.0559999999999999
+anthropic-sonnet4-700: P@5 = 0.0 (zero score)
+google-gemini2.5flash-1300: P@5 = 0.0588832487309644
+google-gemini2.5flash-2000: P@5 = 0.0843853820598004
+google-gemini2.5flash-700: P@5 = 0.0773584905660377
+google-gemini2.5pro-1300: P@5 = 0.0338461538461538
+google-gemini2.5pro-2000: P@5 = 0.0 (zero score)
+google-gemini2.5pro-700: P@5 = 0.0859813084112149
+openai-gpt3.5turbo-1300: P@5 = 0.0510204081632652
+openai-gpt3.5turbo-2000: FAILED
+openai-gpt3.5turbo-700: P@5 = 0.0981132075471697
+openai-gpt4o-1300: P@5 = 0.147959183673469
+openai-gpt4o-2000: P@5 = 0.0784053156146177
+openai-gpt4o-700: P@5 = 0.1075471698113206
+xai-grok3-1300: P@5 = 0.0 (zero score)
+xai-grok3-2000: P@5 = 0.1049833887043186
+xai-grok3-700: P@5 = 0.0495238095238095
+xai-grok4-1300: P@5 = 0.1224489795918364
+xai-grok4-2000: P@5 = 0.187417218543047
+xai-grok4-700: P@5 = 0.2056603773584902

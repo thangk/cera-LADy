@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Reviews>
+	<Review rid="0">
+		<sentences>
+			<sentence id="0:0">
+				<text>The espresso here is consistently top-notch, always brewed to perfection.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="0:1">
+				<text>The cozy atmosphere makes it a great spot to relax, though the prices can be a bit steep for a daily visit.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="1">
+		<sentences>
+			<sentence id="1:0">
+				<text>Every dish we tried was a culinary masterpiece, truly exceptional flavors and presentation.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="1:1">
+				<text>The staff were incredibly attentive and knowledgeable, enhancing our dining experience.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="1:2">
+				<text>Be prepared for a significant bill, as this is definitely a splurge location.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="2">
+		<sentences>
+			<sentence id="2:0">
+				<text>Their burgers are surprisingly good for a diner, and the wait staff brought our food out quickly.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="2:1">
+				<text>You really get a lot of bang for your buck here, making it a solid choice for a casual meal.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="3">
+		<sentences>
+			<sentence id="3:0">
+				<text>This restaurant is perfectly situated right in the heart of the bustling downtown area, making it very accessible.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="3:1">
+				<text>However, the quality of the food can be quite inconsistent; some days it's great, other times it's just average.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="3:2">
+				<text>Despite the food variability, the servers are always very friendly and welcoming.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="4">
+		<sentences>
+			<sentence id="4:0">
+				<text>The authentic flavors of the ramen transported me straight to Tokyo; it was incredibly rich and satisfying.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="4:1">
+				<text>The vibrant, bustling ambiance adds to the dining experience, and even though it was busy, the service was impressively efficient.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="5">
+		<sentences>
+			<sentence id="5:0">
+				<text>The food here is simply outstanding, truly a culinary delight that exceeded all expectations.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="5:1">
+				<text>Our server was incredibly attentive and friendly, making the entire dining experience enjoyable.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="6">
+		<sentences>
+			<sentence id="6:0">
+				<text>The ambiance of the restaurant was cozy and inviting, perfect for a relaxed evening.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="6:1">
+				<text>However, the prices were a bit high for the portion sizes, which felt a little disappointing.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="7">
+		<sentences>
+			<sentence id="7:0">
+				<text>Service was incredibly slow and disorganized; we waited ages just to place our order.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="7:1">
+				<text>When the food finally arrived, it was lukewarm and lacked any real flavor, very disappointing.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="7:2">
+				<text>Overall, the entire visit was a letdown and not worth the wait or the money.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="8">
+		<sentences>
+			<sentence id="8:0">
+				<text>The restaurant's location is fantastic, easily accessible and with plenty of parking nearby.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="8:1">
+				<text>The interior has a modern, minimalist design that feels quite comfortable and clean.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="8:2">
+				<text>Their signature dish was surprisingly good, a pleasant surprise for a casual spot.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="9">
+		<sentences>
+			<sentence id="9:0">
+				<text>We were thoroughly impressed by the quality of ingredients and the exquisite preparation of every dish.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:1">
+				<text>The staff went above and beyond, providing prompt and exceptionally courteous service throughout our meal.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:2">
+				<text>While it is on the higher end price-wise, the value for money is absolutely justified by the premium experience.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+</Reviews>

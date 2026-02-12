@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Reviews>
+	<Review rid="0">
+		<sentences>
+			<sentence id="0:0">
+				<text>The pasta was cooked to perfection and the sauce was flavorful.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="0:1">
+				<text>The waiter was attentive and made sure we had everything we needed.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="1">
+		<sentences>
+			<sentence id="1:0">
+				<text>The interior of the restaurant is a bit dated and could use an update.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="2">
+		<sentences>
+			<sentence id="2:0">
+				<text>The sushi rolls were fresh and delicious, exceeding our expectations.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="2:1">
+				<text>The prices were quite reasonable for the quality of food provided.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="2:2">
+				<text>It's conveniently located near the subway station, making it easy to visit.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="3">
+		<sentences>
+			<sentence id="3:0">
+				<text>The noise level was quite high, making it hard to hold a conversation.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="3:1">
+				<text>However, the service was prompt and friendly throughout our meal.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="4">
+		<sentences>
+			<sentence id="4:0">
+				<text>The steak was overcooked and lacked seasoning, which was disappointing.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="4:1">
+				<text>On the bright side, the dessert was delightful and saved the meal.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="4:2">
+				<text>The overall experience was average, with room for improvement.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="neutral" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="5">
+		<sentences>
+			<sentence id="5:0">
+				<text>The pasta here is absolutely delightful and cooked to perfection.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="5:1">
+				<text>However, the service was a bit slow despite the restaurant not being too busy.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="5:2">
+				<text>The cozy ambience made up for it, creating a pleasant dining experience.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="6">
+		<sentences>
+			<sentence id="6:0">
+				<text>Visiting this restaurant was a delightful experience with excellent food quality throughout.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="6:1">
+				<text>The prices are reasonable, making it a great value for money.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="7">
+		<sentences>
+			<sentence id="7:0">
+				<text>The location is conveniently situated in the heart of the city.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="7:1">
+				<text>I found the service to be quite efficient and friendly.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="8">
+		<sentences>
+			<sentence id="8:0">
+				<text>The steak was overcooked and lacked seasoning, leaving it rather bland.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="8:1">
+				<text>Additionally, the ambience was too noisy for a relaxing evening.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="9">
+		<sentences>
+			<sentence id="9:0">
+				<text>The atmosphere in this café is charming and quite relaxing.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:1">
+				<text>The pastries are fresh and delicious, particularly the croissants.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="9:2">
+				<text>I do wish the prices were a bit more affordable, though.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="10">
+		<sentences>
+			<sentence id="10:0">
+				<text>The pasta was cooked to perfection.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="10:1">
+				<text>However, the service was a bit slow.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="11">
+		<sentences>
+			<sentence id="11:0">
+				<text>The ambiance of the restaurant was quite cozy and inviting.</text>
+				<Opinions>
+					<Opinion target="NULL" category="AMBIENCE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="11:1">
+				<text>Prices were reasonable for the quality of food served.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="12">
+		<sentences>
+			<sentence id="12:0">
+				<text>The steak was undercooked and lacked seasoning.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="12:1">
+				<text>The waiter was very attentive and friendly, which made up for the food.</text>
+				<Opinions>
+					<Opinion target="NULL" category="SERVICE#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="13">
+		<sentences>
+			<sentence id="13:0">
+				<text>Located in the heart of the city, the restaurant is easy to find.</text>
+				<Opinions>
+					<Opinion target="NULL" category="LOCATION#GENERAL" polarity="positive" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+	<Review rid="14">
+		<sentences>
+			<sentence id="14:0">
+				<text>The dessert menu was disappointing with very limited options.</text>
+				<Opinions>
+					<Opinion target="NULL" category="FOOD#QUALITY" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+			<sentence id="14:1">
+				<text>Overall, the dining experience was not worth the price.</text>
+				<Opinions>
+					<Opinion target="NULL" category="PRICE#GENERAL" polarity="negative" from="0" to="0" />
+				</Opinions>
+			</sentence>
+		</sentences>
+	</Review>
+</Reviews>

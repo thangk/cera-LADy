@@ -1,0 +1,29 @@
+{
+    "parallel_providers": true,
+    "parallel_models": false,
+    "config": "config.json",
+    "output_dir": "output",
+    "sent_sizes": [15],
+    "llms": [
+        { 
+            "provider": "anthropic",
+            "models": ["claude-3-5-haiku-20241022"],
+            "prefixes": ["haiku3.5"] 
+        },
+        {
+            "provider": "google",
+            "models": ["gemini-2.5-flash"],
+            "prefixes": ["gemini2.5flash"]
+        },
+        {
+            "provider": "openai",
+            "models": ["gpt-4o"],
+            "prefixes": ["gpt4o"]
+        },
+        {
+            "provider": "xai",
+            "models": ["grok-4"],
+            "prefixes": ["grok4"]
+        }
+    ]
+}
