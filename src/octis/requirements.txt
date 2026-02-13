@@ -1,14 +1,11 @@
-gensim==4.2.0
+gensim>=4.2
 nltk
 pandas
 spacy
-scikit-learn==0.24.2
+scikit-learn>=1.0
 scikit-optimize>=0.8.1
 matplotlib
-torch
 numpy>=1.19.1
-libsvm
-flask
 sentence_transformers
 requests
 tomotopy

@@ -1,70 +1,64 @@
 [tool.poetry]
 name = "LADy"
-version = "0.1.0"
+version = "0.2.0"
 description = "A System for Latent Aspect Detection"
-authors = ["Farinam Hemmatizadeh <you@example.com>"]
+authors = ["Kap Thang <dev@kapthang.dev>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "~3.8.1"
-pandas = "^1.4.4"
-spacy = "^3.3.1"
-typing_extensions = "^4.4.0"
-tqdm = ">=4.64.1"
-scikit-learn = "^1.0.0"
-nltk = "^3.7"
-transformers = "^4.26.1"
-simalign = "^0.3"
-gensim = "^4.0"
-bitermplus = "^0.6.10"
+python = ">=3.10,<3.13"
+
+# Core
+pandas = ">=1.5,<3"
+numpy = ">=1.23,<2"
+scikit-learn = ">=1.0"
+tqdm = ">=4.64"
+natsort = ">=8.4"
+pampy = ">=0.3"
+returns = ">=0.22"
+more-itertools = ">=10.1"
+typing_extensions = ">=4.4"
+
+# NLP
+nltk = ">=3.7"
+spacy = ">=3.7"
+transformers = ">=4.26,<4.40"  # torch 2.1.0 compat
+sentence-transformers = ">=2.2,<3"
+sentencepiece = ">=0.1.99"
+
+# PyTorch: install separately (depends on your CUDA version)
+#   pip: pip install torch --index-url https://download.pytorch.org/whl/cu121
+#   conda: conda install pytorch pytorch-cuda=12.1 -c pytorch -c nvidia
+#   docker: included in base image
+
+# Topic modeling
+gensim = ">=4.3"
+bitermplus = ">=0.6.10"
 contextualized_topic_models = "2.5.0"
-natsort = "^8.4.0"
-seaborn = "^0.12.2"
-rouge = "^1.0.1"
-sentence-transformers = "^2.2.2"
-pytrec-eval-terrier = "^0.5.5"
-numpy = "1.23"
-bert-e2e-absa = { git = "https://github.com/fani-lab/BERT-E2E-ABSA.git" }
-flask-cors = "^4.0.0"
-flask = "^3.0.0"
-torch = { version = "1.13.1", source = "pytorch" }
-pampy = "^0.3.0"
-more-itertools = "^10.1.0"
-returns = "^0.22.0"
-sentencepiece = "^0.1.99"
-deep-translator = "^1.11.4"
+
+# BERT ABSA (install with --no-deps to bypass stale torch<2 constraint)
+# pip install --no-deps git+https://github.com/fani-lab/BERT-E2E-ABSA.git
+
+# Evaluation
+pytrec-eval-terrier = ">=0.5.5"
+
+# Visualization
+seaborn = ">=0.12"
+matplotlib = "*"
 
 [tool.poetry.group.dev.dependencies]
-poethepoet = "^0.22.1"
-
-
-[[tool.poetry.source]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cu117"
-priority = "explicit"
+poethepoet = ">=0.22"
 
 [tool.poe.tasks]
-# This is a workaround which simalign needs networkx 2.4 and this version of nx has conflict in its
-install__networkx = "pip install networkx==3.1"
 install__spacy = "python -m spacy download en_core_web_sm"
-install__stop_words = "python -m nltk.downloader stopwords"
-install__punkt = "python -m nltk.downloader punkt"
-install__octis.shell = "cd src/octis && python3 setup.py install"
-install__web.shell = "cd src/web/frontend && npm install"
+install__nltk_data = "python -c \"import nltk; nltk.download('stopwords'); nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('wordnet')\""
+install__octis.shell = "cd src/octis && pip install ."
 
 post_install = [
-  "install__networkx",
   "install__spacy",
-  "install__stop_words",
-  "install__punkt",
+  "install__nltk_data",
   "install__octis",
-  "install__web",
 ]
-
-dummy.shell = "cd src && python main_exp_slim.py"
-
-start_web_back.shell = "python src/web/backend/app.py"
-start_web_front.shell = "cd src/web/frontend && npm run dev"
 
 [build-system]
 requires = ["poetry-core"]

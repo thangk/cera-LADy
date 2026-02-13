@@ -67,7 +67,7 @@ settings = {
             'eval_all_checkpoints': True,
             'MASTER_ADDR': 'localhost',
             'MASTER_PORT': 28512,
-            'max_steps': 500,  # Increased for proper training on real datasets
+            'max_steps': -1,  # -1 = no cap; use num_train_epochs instead (scales with dataset size)
             'gradient_accumulation_steps': 1,
             'weight_decay': 0.0,
             'adam_epsilon': 1e-8,

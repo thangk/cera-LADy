@@ -13,10 +13,6 @@ with open('HISTORY.rst') as history_file:
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
-setup_requirements = ['pytest-runner', ]
-
-test_requirements = ['pytest>=3', ]
-
 setup(
     author="Silvia Terragni",
     author_email='s.terragni4@campus.unimib.it',
@@ -30,6 +26,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     description="OCTIS: a library for Optimizing and Comparing Topic Models.",
     entry_points={
@@ -44,9 +41,7 @@ setup(
     keywords='octis',
     name='octis',
     packages=find_packages(include=['octis', 'octis.*']),
-    setup_requires=setup_requirements,
     test_suite='tests',
-    tests_require=test_requirements,
     url='https://github.com/MIND-LAB/OCTIS',
     version='1.12.0',
     zip_safe=False,

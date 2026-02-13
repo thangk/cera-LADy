@@ -183,12 +183,21 @@ class BERT(AbstractAspectModel, AbstractSentimentModel):
         super().__init__(naspects=naspects, nwords=nwords, capabilities=self.capabilities)
     
     def load(self, path):
-        path = path[:-1] + f'/{self._data_dir_name}/{self._output_dir_name}/pytorch_model.bin'
-
-        if os.path.isfile(path):
-            pass
-        else:
-            raise FileNotFoundError(f'Model not found for path: {path}')
+        base = path[:-1] + f'/{self._data_dir_name}/{self._output_dir_name}'
+        # Check for both old (pytorch_model.bin) and new (model.safetensors) formats
+        for filename in ['pytorch_model.bin', 'model.safetensors']:
+            candidate = f'{base}/{filename}'
+            if os.path.isfile(candidate):
+                return
+        # Also check inside checkpoint directories
+        import glob as _glob
+        checkpoints = sorted(_glob.glob(f'{base}/checkpoint-*'), key=lambda x: int(x.split('-')[-1]))
+        if checkpoints:
+            last_ckpt = checkpoints[-1]
+            for filename in ['pytorch_model.bin', 'model.safetensors']:
+                if os.path.isfile(f'{last_ckpt}/{filename}'):
+                    return
+        raise FileNotFoundError(f'Model not found in: {base} (checked pytorch_model.bin and model.safetensors)')
 
     def train(self,
               reviews_train: List[Review],
@@ -253,7 +262,10 @@ class BERT(AbstractAspectModel, AbstractSentimentModel):
 
         args['output_dir'] = output_dir
         args['absa_home']  = output_dir
-        args['ckpt']       = f'{output_dir}/checkpoint-{settings["train"]["bert"]["max_steps"]}'
+        # Find the last checkpoint dynamically (works with both max_steps and epoch-based training)
+        import glob as _glob
+        checkpoints = sorted(_glob.glob(f'{output_dir}/checkpoint-*'), key=lambda x: int(x.split('-')[-1]))
+        args['ckpt'] = checkpoints[-1] if checkpoints else f'{output_dir}/checkpoint-500'
         
         # Enable dynamic batching for inference too
         if not args.get('no_cuda', False) and torch.cuda.is_available():

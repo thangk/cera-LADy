@@ -1,44 +1,37 @@
-FROM python:3.8.12-slim-bullseye
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
 
 WORKDIR /app
 
-# Installing GCC
-RUN apt update
+# System deps (single layer, clean up apt cache)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential git \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt install -y build-essential
+# Python deps from pyproject.toml (cached unless it changes)
+COPY pyproject.toml README.md ./
+RUN mkdir -p lady && touch lady/__init__.py \
+    && pip install --no-cache-dir . \
+    && rm -rf lady \
+    && pip install --no-cache-dir tensorboardX openpyxl "protobuf>=3.20,<4" \
+    && pip install --no-cache-dir --no-deps --ignore-requires-python "bert-e2e-absa @ git+https://github.com/fani-lab/BERT-E2E-ABSA.git" \
+    && python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('wordnet')" \
+    && python -m spacy download en_core_web_sm
 
-# Installing Node.js
-ENV NODE_VERSION=20.9.0
-RUN apt install -y curl
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-ENV NVM_DIR=/root/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN node --version
-RUN npm --version
+# Octis from source (cached unless src/octis changes)
+COPY src/octis /app/src/octis
+RUN cd /app/src/octis && pip install --no-cache-dir . \
+    && rm -rf /app/src/octis/build /app/src/octis/*.egg-info
 
-# Install dependencies
-RUN pip install pipx
+# Pre-download HuggingFace models (cached in Docker layer)
+RUN python -c "\
+from transformers import AutoTokenizer, AutoModel; \
+AutoTokenizer.from_pretrained('bert-base-uncased'); \
+AutoModel.from_pretrained('bert-base-uncased'); \
+from sentence_transformers import SentenceTransformer; \
+SentenceTransformer('bert-base-uncased')"
 
-# RUN pipx ensurepath
-ENV PATH=/root/.local/bin:$PATH
-
-RUN pipx install poetry==1.6.0
-RUN pipx install poethepoet
-
-COPY pyproject.toml .
-
-RUN poetry install
-
+# Source code (changes most often, last layer)
 COPY . .
 
-RUN poe post_install
-
-# Changing working directory to src for later use at commandline
 WORKDIR /app/src
-
-RUN poe dummy
-
-CMD [ "/bin/bash" ]
+CMD ["/bin/bash"]

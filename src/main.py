@@ -38,21 +38,18 @@ def load(input, output, cache=True):
         try:
             print('1.1. Loading existing processed pickle file failed! Loading raw reviews ...')
             print(f'Input path: {input}')
-            if "semeval" in input.lower():
-                print(f'Detected semeval dataset in path: {input}')
-                from cmn.semeval import SemEvalReview
-                implicit = "implicit" in input.lower() or "implitcits" in input.lower()
-                print(f'Setting implicit={implicit} based on input path')
-                reviews = SemEvalReview.load(input, explicit=not implicit, implicit=implicit)
-                print(f'After SemEvalReview.load, got {len(reviews)} reviews')
-            elif "twitter" in input.lower():
+            if "twitter" in input.lower():
                 from cmn.twitter import TwitterReview
                 reviews = TwitterReview.load(input)
+            elif "semeval" in input.lower() or input.lower().endswith('.xml'):
+                print(f'Detected SemEval XML dataset: {input}')
+                from cmn.semeval import SemEvalReview
+                reviews = SemEvalReview.load(input, explicit=True, implicit=True)
+                print(f'After SemEvalReview.load, got {len(reviews)} reviews')
             else:
-                # from cmn.mams import MAMSReview
-                print("No specific dataset ('semeval' or 'twitter') was detected in the input.")
-                print(f"Input was: {input}")
-                return []  # Return empty list to avoid crashing later
+                print(f"Unrecognized dataset format: {input}")
+                print("Supported: SemEval XML (.xml) or Twitter text files")
+                return []
                 
             print(f'(#reviews: {len(reviews)})')
             print(f'\n1.2. Augmentation via backtranslation by {params.settings["prep"]["langaug"]} {"in batches" if params.settings["prep"] else ""}...')
