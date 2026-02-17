@@ -14,6 +14,7 @@ DIR=""
 AC=""
 MODELS="rnd,btm,ctm,bert"
 TARGETS=""
+PARALLEL="none"
 
 JOBS_ROOT="/app/jobs"
 CATEGORIES_ROOT="/app/datasets/categories"
@@ -43,6 +44,11 @@ OPTIONS
   targets=    Comma-separated target sizes to evaluate
               These correspond to folder names inside the job's datasets/ dir
               (default: auto-discover all numeric folders)
+  parallel=   Parallelization mode (default: none)
+              none    - Sequential execution (default)
+              models  - Run all models in parallel for each run
+              targets - Run all targets in parallel (models sequential)
+              all     - Run both targets and models in parallel
   -h, --help  Show this help message
 
 XML DISCOVERY
@@ -74,7 +80,30 @@ EXAMPLES
 
   # Full path and custom categories
   run_job.sh type=cera dir=/data/my-job ac=/data/custom-categories.csv
+
+  # Parallel: run all models simultaneously
+  run_job.sh type=cera dir=my-job ac=laptops parallel=models
+
+  # Parallel: run all targets simultaneously
+  run_job.sh type=cera dir=my-job ac=laptops parallel=targets
+
+  # Parallel: run both targets and models simultaneously
+  run_job.sh type=cera dir=my-job ac=laptops parallel=all
 HELP
+}
+
+# ─── Time Formatting ────────────────────────────────────────────────────────
+
+fmt_duration() {
+    local total_seconds="$1"
+    local hours=$((total_seconds / 3600))
+    local minutes=$(( (total_seconds % 3600) / 60 ))
+    local seconds=$((total_seconds % 60))
+    printf "%02dh %02dm %02ds" "$hours" "$minutes" "$seconds"
+}
+
+fmt_timestamp() {
+    date -d "@$1" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || date -r "$1" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "N/A"
 }
 
 # ─── Functions ───────────────────────────────────────────────────────────────
@@ -229,13 +258,13 @@ run_experiment() {
         local end_time
         end_time=$(date +%s)
         local elapsed=$(( end_time - start_time ))
-        echo "  DONE: $model (${elapsed}s)"
+        echo "  DONE: $model ($(fmt_duration $elapsed))"
         return 0
     else
         local end_time
         end_time=$(date +%s)
         local elapsed=$(( end_time - start_time ))
-        echo "  FAILED: $model (${elapsed}s)"
+        echo "  FAILED: $model ($(fmt_duration $elapsed))"
         return 1
     fi
 }
@@ -293,6 +322,103 @@ print(f'  Aggregated {len(files)} run(s) -> {out_path}')
 " "${agg_files[@]}"
 }
 
+# ─── Process a single target (used by both sequential and parallel modes) ───
+
+process_target() {
+    local target="$1"
+    local target_dir="$JOB_DIR/datasets/$target"
+    local target_start
+    target_start=$(date +%s)
+
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  Target: $target"
+    echo "  Started: $(fmt_timestamp $target_start)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # Discover XMLs
+    local XML_LIST=()
+    if [[ "$TYPE" == "real" ]]; then
+        discover_xmls_real "$target_dir" XML_LIST
+    else
+        discover_xmls_generated "$target_dir" XML_LIST
+    fi
+
+    echo "  Found ${#XML_LIST[@]} run(s)"
+
+    if [[ ${#XML_LIST[@]} -eq 0 ]]; then
+        echo "  WARNING: No XMLs found for target $target, skipping"
+        return
+    fi
+
+    local target_failures=()
+
+    for run_idx in "${!XML_LIST[@]}"; do
+        local run_num=$((run_idx + 1))
+        local xml="${XML_LIST[$run_idx]}"
+        local run_output="$OUTPUT_DIR/target-${target}/run${run_num}"
+
+        echo ""
+        echo "  ── Run $run_num: $(basename "$xml")"
+        echo "     XML: $xml"
+
+        if [[ "$PARALLEL" == "models" || "$PARALLEL" == "all" ]]; then
+            # Run all models in parallel for this run
+            local model_pids=()
+            local model_names=()
+
+            for model in "${MODEL_LIST[@]}"; do
+                echo ""
+                echo "  [parallel] target=$target run=$run_num model=$model"
+                (
+                    if ! run_experiment "$xml" "$model" "$run_output"; then
+                        exit 1
+                    fi
+                ) &
+                model_pids+=($!)
+                model_names+=("$model")
+            done
+
+            # Wait for all model processes and collect failures
+            for i in "${!model_pids[@]}"; do
+                if ! wait "${model_pids[$i]}"; then
+                    target_failures+=("target=$target run=$run_num model=${model_names[$i]}")
+                fi
+            done
+        else
+            # Sequential model execution
+            for model in "${MODEL_LIST[@]}"; do
+                echo ""
+                echo "  target=$target run=$run_num model=$model"
+
+                if ! run_experiment "$xml" "$model" "$run_output"; then
+                    target_failures+=("target=$target run=$run_num model=$model")
+                fi
+            done
+        fi
+    done
+
+    echo ""
+    echo "  Aggregating runs for target $target..."
+    aggregate_cross_runs "$target"
+
+    local target_end
+    target_end=$(date +%s)
+    local target_elapsed=$(( target_end - target_start ))
+
+    echo ""
+    echo "  ── Target $target complete"
+    echo "     Started:  $(fmt_timestamp $target_start)"
+    echo "     Finished: $(fmt_timestamp $target_end)"
+    echo "     Duration: $(fmt_duration $target_elapsed)"
+
+    # Write failures to a temp file so the parent can collect them
+    if [[ ${#target_failures[@]} -gt 0 ]]; then
+        local fail_file="$OUTPUT_DIR/.failures_target_${target}"
+        printf '%s\n' "${target_failures[@]}" > "$fail_file"
+    fi
+}
+
 # ─── Argument Parsing ────────────────────────────────────────────────────────
 
 if [[ $# -eq 0 ]]; then
@@ -308,6 +434,7 @@ for arg in "$@"; do
         ac=*)       AC="${arg#ac=}" ;;
         models=*)   MODELS="${arg#models=}" ;;
         targets=*)  TARGETS="${arg#targets=}" ;;
+        parallel=*) PARALLEL="${arg#parallel=}" ;;
         *)          echo "ERROR: Unknown argument: $arg"; echo ""; show_help; exit 1 ;;
     esac
 done
@@ -328,6 +455,10 @@ if [[ -z "$DIR" ]]; then
 fi
 if [[ -z "$AC" ]]; then
     echo "ERROR: ac= is required (e.g., laptops, restaurants, hotels)"
+    exit 1
+fi
+if [[ "$PARALLEL" != "none" && "$PARALLEL" != "models" && "$PARALLEL" != "targets" && "$PARALLEL" != "all" ]]; then
+    echo "ERROR: parallel= must be one of: none, models, targets, all (got: $PARALLEL)"
     exit 1
 fi
 
@@ -362,7 +493,6 @@ for target in "${TARGET_LIST[@]}"; do
     TOTAL=$(( TOTAL + ${#_count_xmls[@]} * ${#MODEL_LIST[@]} ))
 done
 
-CURRENT=0
 FAILED=()
 
 # ─── Banner ──────────────────────────────────────────────────────────────────
@@ -375,8 +505,10 @@ echo "  Job dir:    $JOB_DIR"
 echo "  Categories: $CAT_PATH ($NASPECTS aspects)"
 echo "  Models:     ${MODEL_LIST[*]}"
 echo "  Targets:    ${TARGET_LIST[*]}"
+echo "  Parallel:   $PARALLEL"
 echo "  Output:     $OUTPUT_DIR"
 echo "  Total:      $TOTAL experiments"
+echo "  Started:    $(fmt_timestamp $SCRIPT_START)"
 echo "============================================"
 echo ""
 
@@ -384,50 +516,35 @@ echo ""
 
 cd /app/src
 
-for target in "${TARGET_LIST[@]}"; do
-    target_dir="$JOB_DIR/datasets/$target"
+if [[ "$PARALLEL" == "targets" || "$PARALLEL" == "all" ]]; then
+    # Run all targets in parallel
+    target_pids=()
 
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "  Target: $target"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-    # Discover XMLs
-    if [[ "$TYPE" == "real" ]]; then
-        discover_xmls_real "$target_dir" XML_LIST
-    else
-        discover_xmls_generated "$target_dir" XML_LIST
-    fi
-
-    echo "  Found ${#XML_LIST[@]} run(s)"
-
-    if [[ ${#XML_LIST[@]} -eq 0 ]]; then
-        echo "  WARNING: No XMLs found for target $target, skipping"
-        continue
-    fi
-
-    for run_idx in "${!XML_LIST[@]}"; do
-        run_num=$((run_idx + 1))
-        xml="${XML_LIST[$run_idx]}"
-        run_output="$OUTPUT_DIR/target-${target}/run${run_num}"
-
-        echo ""
-        echo "  ── Run $run_num: $(basename "$xml")"
-        echo "     XML: $xml"
-
-        for model in "${MODEL_LIST[@]}"; do
-            CURRENT=$((CURRENT + 1))
-            echo ""
-            echo "  [$CURRENT/$TOTAL] target=$target run=$run_num model=$model"
-
-            if ! run_experiment "$xml" "$model" "$run_output"; then
-                FAILED+=("target=$target run=$run_num model=$model")
-            fi
-        done
+    for target in "${TARGET_LIST[@]}"; do
+        process_target "$target" &
+        target_pids+=($!)
     done
 
-    echo ""
-    echo "  Aggregating runs for target $target..."
-    aggregate_cross_runs "$target"
+    # Wait for all target processes
+    for pid in "${target_pids[@]}"; do
+        wait "$pid" || true
+    done
+else
+    # Sequential target execution
+    for target in "${TARGET_LIST[@]}"; do
+        process_target "$target"
+    done
+fi
+
+# Collect failures from temp files
+for target in "${TARGET_LIST[@]}"; do
+    local_fail_file="$OUTPUT_DIR/.failures_target_${target}"
+    if [[ -f "$local_fail_file" ]]; then
+        while IFS= read -r line; do
+            FAILED+=("$line")
+        done < "$local_fail_file"
+        rm -f "$local_fail_file"
+    fi
 done
 
 # ─── Summary ─────────────────────────────────────────────────────────────────
@@ -438,7 +555,9 @@ TOTAL_TIME=$(( SCRIPT_END - SCRIPT_START ))
 echo ""
 echo "============================================"
 echo "  Job complete: $TYPE"
-echo "  Total time: ${TOTAL_TIME}s"
+echo "  Started:    $(fmt_timestamp $SCRIPT_START)"
+echo "  Finished:   $(fmt_timestamp $SCRIPT_END)"
+echo "  Duration:   $(fmt_duration $TOTAL_TIME)"
 echo "============================================"
 
 if [[ ${#FAILED[@]} -gt 0 ]]; then
