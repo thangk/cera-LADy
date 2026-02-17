@@ -273,8 +273,7 @@ class BERT(AbstractAspectModel, AbstractSentimentModel):
         
         # Enable dynamic batching for inference too
         if not args.get('no_cuda', False) and torch.cuda.is_available():
-            # Reduce eval batch size if needed
-            args['per_gpu_eval_batch_size'] = min(args.get('per_gpu_eval_batch_size', 4), 2)
+            # Use dynamic eval batch size (already scaled by VRAM detection in params.py)
             clear_gpu_memory()
 
         print(f"BERT: Processing {len(reviews_test)} reviews...")

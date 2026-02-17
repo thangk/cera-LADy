@@ -21,6 +21,68 @@ def _detect_device():
 
 _device = _detect_device()
 
+def _get_gpu_vram_gb():
+    """Get total GPU VRAM in GB. Returns 0 if no GPU."""
+    try:
+        import torch
+        if torch.cuda.is_available():
+            total = torch.cuda.get_device_properties(0).total_mem / 1024**3
+            print(f"GPU VRAM: {total:.1f} GB")
+            return total
+    except ImportError:
+        pass
+    return 0.0
+
+_gpu_vram = _get_gpu_vram_gb()
+
+def _dynamic_batch_sizes(vram_gb):
+    """
+    Return optimal batch sizes based on available GPU VRAM.
+    Keeps conservative defaults for small GPUs, scales up for larger ones.
+    OOM fallback in bert_dynamic_trainer.py still applies on top of this.
+    """
+    if vram_gb <= 0:
+        # CPU-only: small batches
+        return {
+            'bert_train': 4, 'bert_eval': 2,
+            'bert_max_seq_length': 64,
+            'ctm_batch_size': 8,
+        }
+    elif vram_gb <= 6:
+        return {
+            'bert_train': 4, 'bert_eval': 2,
+            'bert_max_seq_length': 64,
+            'ctm_batch_size': 16,
+        }
+    elif vram_gb <= 8:
+        return {
+            'bert_train': 8, 'bert_eval': 4,
+            'bert_max_seq_length': 64,
+            'ctm_batch_size': 32,
+        }
+    elif vram_gb <= 12:
+        return {
+            'bert_train': 16, 'bert_eval': 8,
+            'bert_max_seq_length': 128,
+            'ctm_batch_size': 64,
+        }
+    elif vram_gb <= 24:
+        return {
+            'bert_train': 32, 'bert_eval': 16,
+            'bert_max_seq_length': 128,
+            'ctm_batch_size': 128,
+        }
+    else:  # >24 GB (A100, H100, etc.)
+        return {
+            'bert_train': 64, 'bert_eval': 32,
+            'bert_max_seq_length': 128,
+            'ctm_batch_size': 256,
+        }
+
+_dyn = _dynamic_batch_sizes(_gpu_vram)
+print(f"Dynamic batch config: BERT train={_dyn['bert_train']}, eval={_dyn['bert_eval']}, "
+      f"seq_len={_dyn['bert_max_seq_length']}, CTM={_dyn['ctm_batch_size']}")
+
 settings = {
     'cmd': ['prep', 'train', 'test', 'eval', 'agg'], # steps of pipeline, ['prep', 'train', 'test', 'eval', 'agg']
     'prep': {
@@ -49,14 +111,14 @@ settings = {
         'bert': {
             'model_type': 'bert',
             'absa_type': 'linear',
-            'max_seq_length': 64,  # Reduced from 128 to help with memory
+            'max_seq_length': _dyn['bert_max_seq_length'],  # Dynamic based on GPU VRAM
             'tfm_mode': 'finetune',
             'fix_tfm': 0,
             'model_name_or_path': 'bert-base-uncased',
             'data_dir': '/output/run', # This param will updated dynamically in bert.py
             'task_name': 'lady',
-            'per_gpu_train_batch_size': 8,  # Will be dynamically adjusted if needed
-            'per_gpu_eval_batch_size': 4,  # Will be dynamically adjusted if needed
+            'per_gpu_train_batch_size': _dyn['bert_train'],  # Dynamic based on GPU VRAM (OOM fallback still active)
+            'per_gpu_eval_batch_size': _dyn['bert_eval'],  # Dynamic based on GPU VRAM
             'learning_rate': 2e-5,
             'do_train': True,
             'do_eval': True,
@@ -100,7 +162,7 @@ settings = {
         'ctm': {'num_epochs': 20, 'ncore': ncore, 'seed': seed,
                 'bert_model': 'bert-base-uncased',  # Use simpler model to avoid download timeouts
                 'contextual_size': 768,
-                'batch_size': 16,  # Increased for better gradient estimates
+                'batch_size': _dyn['ctm_batch_size'],  # Dynamic based on GPU VRAM
                 'num_samples': 10,  # Increased for better sampling
                 'inference_type': 'combined', #for 'zeroshot' from octis.ctm only
                 'verbose': True,

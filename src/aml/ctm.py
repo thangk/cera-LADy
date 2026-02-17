@@ -102,15 +102,36 @@ class Ctm(AbstractAspectModel):
                 print("Warning: Validation dataset could not be processed. Training without validation.")
                 valid_dataset = None
 
-        self.mdl = CombinedTM(bow_size=len(self.tp.vocab),
-                              contextual_size=settings['contextual_size'],
-                              n_components=self.naspects,
-                              num_epochs=settings['num_epochs'],
-                              num_data_loader_workers=settings['ncore'],
-                              batch_size=min([settings['batch_size'], len(training_dataset), len(valid_dataset) if valid_dataset else np.inf]))
-                            # drop_last=True!! So, for small train/valid sets, it raises devision by zero in val_loss /= samples_processed
+        batch_size = int(min([settings['batch_size'], len(training_dataset), len(valid_dataset) if valid_dataset else np.inf]))
+        min_batch_size = 4
 
-        self.mdl.fit(train_dataset=training_dataset, validation_dataset=valid_dataset, verbose=True, save_dir=f'{output}model', )
+        # OOM-resilient training loop: halve batch size on CUDA OOM, retry up to 4 times
+        max_oom_retries = 4
+        for oom_attempt in range(max_oom_retries + 1):
+            try:
+                self.mdl = CombinedTM(bow_size=len(self.tp.vocab),
+                                      contextual_size=settings['contextual_size'],
+                                      n_components=self.naspects,
+                                      num_epochs=settings['num_epochs'],
+                                      num_data_loader_workers=settings['ncore'],
+                                      batch_size=batch_size)
+                                    # drop_last=True!! So, for small train/valid sets, it raises devision by zero in val_loss /= samples_processed
+
+                print(f"CTM: Training with batch_size={batch_size}")
+                self.mdl.fit(train_dataset=training_dataset, validation_dataset=valid_dataset, verbose=True, save_dir=f'{output}model', )
+                break  # success
+            except RuntimeError as e:
+                if 'out of memory' in str(e).lower() and oom_attempt < max_oom_retries:
+                    old_bs = batch_size
+                    batch_size = max(min_batch_size, batch_size // 2)
+                    print(f"CTM: GPU OOM with batch_size={old_bs}, retrying with batch_size={batch_size}")
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                    import gc; gc.collect()
+                    if batch_size == old_bs:
+                        raise  # can't reduce further
+                else:
+                    raise
         try:
             topic_lists = self.mdl.get_topic_lists(self.nwords)
             self.cas = CoherenceUMASS(texts=[doc.split() for doc in processed], topics=topic_lists).score(topk=self.nwords, per_topic=True)
