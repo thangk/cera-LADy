@@ -265,7 +265,11 @@ class BERT(AbstractAspectModel, AbstractSentimentModel):
         # Find the last checkpoint dynamically (works with both max_steps and epoch-based training)
         import glob as _glob
         checkpoints = sorted(_glob.glob(f'{output_dir}/checkpoint-*'), key=lambda x: int(x.split('-')[-1]))
-        args['ckpt'] = checkpoints[-1] if checkpoints else f'{output_dir}/checkpoint-500'
+        if checkpoints:
+            args['ckpt'] = checkpoints[-1]
+        else:
+            # Model saved directly in output_dir (no checkpoint subdirs)
+            args['ckpt'] = output_dir
         
         # Enable dynamic batching for inference too
         if not args.get('no_cuda', False) and torch.cuda.is_available():

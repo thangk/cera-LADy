@@ -22,8 +22,9 @@ typing_extensions = ">=4.4"
 # NLP
 nltk = ">=3.7"
 spacy = ">=3.7"
-transformers = ">=4.26,<4.40"  # torch 2.1.0 compat
-sentence-transformers = ">=2.2,<3"
+transformers = "4.37.2"           # pinned: torch 2.1.0 compat
+sentence-transformers = "2.2.2"   # pinned: torch 2.1.0 compat
+huggingface-hub = ">=0.19.3,<0.25" # pinned: sentence-transformers 2.2.2 needs cached_download
 sentencepiece = ">=0.1.99"
 
 # PyTorch: install separately (depends on your CUDA version)
@@ -32,7 +33,7 @@ sentencepiece = ">=0.1.99"
 #   docker: included in base image
 
 # Topic modeling
-gensim = ">=4.3"
+gensim = ">=4.2"
 bitermplus = ">=0.6.10"
 contextualized_topic_models = "2.5.0"
 

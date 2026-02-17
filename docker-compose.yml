@@ -9,6 +9,7 @@ services:
       - ./experiment_datasets:/app/experiment_datasets
       - ./examples:/app/examples
       - ./output:/app/output
+      - ./jobs:/app/jobs
     deploy:
       resources:
         reservations:

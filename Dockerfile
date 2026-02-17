@@ -12,6 +12,7 @@ COPY pyproject.toml README.md ./
 RUN mkdir -p lady && touch lady/__init__.py \
     && pip install --no-cache-dir . \
     && rm -rf lady \
+    && pip install --no-cache-dir "scipy==1.10.1" \
     && pip install --no-cache-dir tensorboardX openpyxl "protobuf>=3.20,<4" \
     && pip install --no-cache-dir --no-deps --ignore-requires-python "bert-e2e-absa @ git+https://github.com/fani-lab/BERT-E2E-ABSA.git" \
     && python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('wordnet')" \
