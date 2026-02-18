@@ -11,6 +11,7 @@ python = ">=3.10,<3.13"
 # Core
 pandas = ">=1.5,<3"
 numpy = ">=1.23,<2"
+scipy = "1.10.1"                   # pinned: compat with torch 2.1.0
 scikit-learn = ">=1.0"
 tqdm = ">=4.64"
 natsort = ">=8.4"
@@ -18,6 +19,7 @@ pampy = ">=0.3"
 returns = ">=0.22"
 more-itertools = ">=10.1"
 typing_extensions = ">=4.4"
+openpyxl = "*"
 
 # NLP
 nltk = ">=3.7"
@@ -38,7 +40,9 @@ bitermplus = ">=0.6.10"
 contextualized_topic_models = "2.5.0"
 
 # BERT ABSA (install with --no-deps to bypass stale torch<2 constraint)
-# pip install --no-deps git+https://github.com/fani-lab/BERT-E2E-ABSA.git
+# pip install --no-deps --ignore-requires-python "bert-e2e-absa @ git+https://github.com/fani-lab/BERT-E2E-ABSA.git"
+tensorboardX = "*"                 # required by bert-e2e-absa training
+protobuf = ">=3.20,<4"            # required by bert-e2e-absa
 
 # Evaluation
 pytrec-eval-terrier = ">=0.5.5"
@@ -54,11 +58,13 @@ poethepoet = ">=0.22"
 install__spacy = "python -m spacy download en_core_web_sm"
 install__nltk_data = "python -c \"import nltk; nltk.download('stopwords'); nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('wordnet')\""
 install__octis.shell = "cd src/octis && pip install ."
+install__bert_absa.shell = "pip install --no-deps --ignore-requires-python 'bert-e2e-absa @ git+https://github.com/fani-lab/BERT-E2E-ABSA.git'"
 
 post_install = [
   "install__spacy",
   "install__nltk_data",
   "install__octis",
+  "install__bert_absa",
 ]
 
 [build-system]
