@@ -26,7 +26,7 @@ def _get_gpu_vram_gb():
     try:
         import torch
         if torch.cuda.is_available():
-            total = torch.cuda.get_device_properties(0).total_mem / 1024**3
+            total = torch.cuda.get_device_properties(0).total_memory / 1024**3
             print(f"GPU VRAM: {total:.1f} GB")
             return total
     except ImportError:
