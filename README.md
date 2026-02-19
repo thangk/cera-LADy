@@ -51,22 +51,21 @@ docker-compose up -d --build
 docker exec -it cera-lady-cli bash
 ```
 
-### 3. Run all benchmarks
+### 3. Run a benchmark job
 
 ```bash
 cd /app/scripts
-./run_all.sh
+./run_job.sh -d ../datasets/real-baselines-full/laptop.xml \
+             -o ../output/laptop-real \
+             -c ../datasets/categories/laptops.csv \
+             -a 86
 ```
-
-This runs all dataset x model combinations (12 total) and saves results to `output/`.
 
 ### 4. Check results
 
 ```bash
-# P@5 scores per dataset per model
-cat output/cera/agg.ad.pred.eval.mean.csv
-cat output/heuristic/agg.ad.pred.eval.mean.csv
-cat output/real-baselines/agg.ad.pred.eval.mean.csv
+# P@5 scores per model
+cat output/laptop-real/agg.ad.pred.eval.mean.csv
 ```
 
 ---
@@ -82,7 +81,7 @@ python -u main.py \
   -data ../datasets/cera/reviews-run1-explicit.xml \
   -output ../output/cera \
   -naspects 5 \
-  -categories ../datasets/categories/laptop.csv
+  -categories ../datasets/categories/laptops.csv
 
 # Available models: rnd, btm, ctm, bert
 # Available flags:
@@ -110,9 +109,9 @@ Category files are provided for three domains:
 
 | Domain | Categories | File |
 |--------|-----------|------|
-| Laptop | 86 | `datasets/categories/laptop.csv` |
-| Restaurant | 13 | `datasets/categories/restaurant.csv` |
-| Hotel | 35 | `datasets/categories/hotel.csv` |
+| Laptop | 86 | `datasets/categories/laptops.csv` |
+| Restaurant | 13 | `datasets/categories/restaurants.csv` |
+| Hotel | 36 | `datasets/categories/hotels.csv` |
 
 ---
 
@@ -121,23 +120,24 @@ Category files are provided for three domains:
 ```
 cera-LADy/
 ├── datasets/
-│   ├── categories/          # Domain category files (laptop, restaurant, hotel)
-│   ├── cera/                # CERA-generated datasets
-│   ├── heuristic/           # Heuristic baseline datasets
+│   ├── categories/          # Domain category files (laptops, restaurants, hotels)
 │   ├── real-baselines/      # Trimmed real SemEval datasets
-│   └── real-baselines-full/ # Full SemEval datasets
+│   └── real-baselines-full/ # Full SemEval datasets (laptop, restaurant, hotel)
 ├── scripts/
-│   └── run_all.sh           # Run all dataset × model combinations
+│   ├── run_job.sh           # Run all 4 models on a single dataset
+│   └── predownload_models.py # Pre-download BERT/CTM model weights
 ├── src/
 │   ├── main.py              # Main experiment runner
-│   ├── params.py            # Model hyperparameters
+│   ├── params.py            # Model hyperparameters (dynamic batch sizing)
 │   ├── aml/                 # Architecture models (BERT, CTM, BTM, RND)
 │   ├── cmn/                 # Common utilities (review loading, category mapping)
-│   └── octis/               # OCTIS topic modeling (vendored)
+│   └── octis/               # OCTIS topic modeling framework
 ├── Dockerfile               # PyTorch 2.1.0 + CUDA 12.1
 ├── docker-compose.yml       # GPU-enabled container config
 └── pyproject.toml           # Python dependencies
 ```
+
+Synthetic datasets (CERA-generated and heuristic) are provided via CERA job output directories rather than checked into this repository.
 
 ---
 
@@ -153,10 +153,12 @@ All experiments use uniform parameters from `src/params.py`:
 
 | Model | Key Settings |
 |-------|-------------|
-| **BERT** | 3 epochs, batch_size=8, lr=2e-5, bert-base-uncased |
-| **CTM** | 20 epochs, batch_size=16, bert-base-uncased embeddings |
+| **BERT** | 3 epochs, lr=2e-5, bert-base-uncased, batch size auto-scaled by GPU VRAM |
+| **CTM** | 20 epochs, bert-base-uncased embeddings, batch size auto-scaled by GPU VRAM |
 | **BTM** | 1000 iterations, all CPU cores |
 | **RND** | Uniform probability baseline |
+
+> **Note:** BERT and CTM batch sizes are dynamically determined based on available GPU VRAM (see `src/params.py`).
 
 ---
 
@@ -164,15 +166,17 @@ All experiments use uniform parameters from `src/params.py`:
 
 ```
 output/{dataset_name}/
-├── reviews.pkl                          # Preprocessed reviews
-├── splits.json                          # Train/test split indices
-├── 5.na/{model}/                        # Per-model results
-│   ├── f{0..4}.model.*                  # Trained model per fold
-│   ├── f{0..4}.model.ad.pred.*          # Predictions per fold
-│   └── f{0..4}.model.ad.pred.*.eval.*   # Per-fold evaluation
-├── agg.ad.pred.eval.mean.csv            # Aggregated metrics (P@5, NDCG, MAP, etc.)
-└── {model}_log.txt                      # Training log
+├── reviews.pkl                              # Preprocessed reviews
+├── splits.json                              # Train/test split indices
+├── {naspects}/{model}/                      # Per-model results (e.g., 86/bert/)
+│   ├── f{0..4}.model.*                      # Trained model per fold
+│   ├── f{0..4}.model.ad.pred.*              # Predictions per fold
+│   └── f{0..4}.model.ad.pred.*.eval.*       # Per-fold evaluation
+├── agg.ad.pred.eval.mean.csv                # Aggregated metrics (P@5, NDCG, MAP, etc.)
+└── {model}_log.txt                          # Training log
 ```
+
+The `{naspects}` directory corresponds to the `-naspects` flag (e.g., `86` for laptop with 86 categories).
 
 ---
 
