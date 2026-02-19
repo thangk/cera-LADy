@@ -364,25 +364,35 @@ process_target() {
 
         if [[ "$PARALLEL" == "models" || "$PARALLEL" == "all" ]]; then
             # Run all models in parallel for this run
+            # Each subshell writes to its own log file to avoid shared-pipe contention
             local model_pids=()
             local model_names=()
+            local model_logs=()
+            mkdir -p "$run_output"
 
             for model in "${MODEL_LIST[@]}"; do
+                local mlog="$run_output/.parallel_${model}.log"
+                model_logs+=("$mlog")
                 echo ""
                 echo "  [parallel] target=$target run=$run_num model=$model"
                 (
-                    if ! run_experiment "$xml" "$model" "$run_output"; then
-                        exit 1
-                    fi
-                ) &
+                    set +e  # Prevent pipe errors from killing subshell
+                    run_experiment "$xml" "$model" "$run_output"
+                    exit $?
+                ) > "$mlog" 2>&1 &
                 model_pids+=($!)
                 model_names+=("$model")
             done
 
-            # Wait for all model processes and collect failures
+            # Wait for all model processes, replay logs, and collect failures
             for i in "${!model_pids[@]}"; do
                 if ! wait "${model_pids[$i]}"; then
                     target_failures+=("target=$target run=$run_num model=${model_names[$i]}")
+                fi
+                # Replay model log to main output
+                if [[ -f "${model_logs[$i]}" ]]; then
+                    cat "${model_logs[$i]}"
+                    rm -f "${model_logs[$i]}"
                 fi
             done
         else
@@ -518,16 +528,27 @@ cd /app/src
 
 if [[ "$PARALLEL" == "targets" || "$PARALLEL" == "all" ]]; then
     # Run all targets in parallel
+    # Each target writes to its own log file to avoid shared-pipe contention
     target_pids=()
+    target_logs=()
 
     for target in "${TARGET_LIST[@]}"; do
-        process_target "$target" &
+        tlog="$OUTPUT_DIR/.parallel_target_${target}.log"
+        target_logs+=("$tlog")
+        (
+            set +e  # Prevent pipe errors from killing subshell
+            process_target "$target"
+        ) > "$tlog" 2>&1 &
         target_pids+=($!)
     done
 
-    # Wait for all target processes
-    for pid in "${target_pids[@]}"; do
-        wait "$pid" || true
+    # Wait for all target processes and replay logs
+    for i in "${!target_pids[@]}"; do
+        wait "${target_pids[$i]}" || true
+        if [[ -f "${target_logs[$i]}" ]]; then
+            cat "${target_logs[$i]}"
+            rm -f "${target_logs[$i]}"
+        fi
     done
 else
     # Sequential target execution
