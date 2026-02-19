@@ -5,7 +5,6 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-in%20development-yellow" alt="Status">
   <img src="https://img.shields.io/badge/python-3.10+-blue" alt="Python">
   <img src="https://img.shields.io/badge/CUDA-12.1-green" alt="CUDA">
   <img src="https://img.shields.io/badge/license-research%20only-lightgrey" alt="License">
@@ -13,13 +12,9 @@
 
 ---
 
-> **Note:** This repository is under active development as part of an MSc thesis at the University of Windsor. A fork of the [LADy](https://github.com/fani-lab/LADy) framework, adapted for domain-agnostic category-based evaluation of [CERA](https://github.com/thangk/cera)-generated datasets.
-
----
-
 ## Overview
 
-cera-LADy evaluates synthetic review datasets for **implicit aspect detection** using four architecture models. It measures how well generated datasets (from CERA, heuristic baselines, or real data) enable models to detect latent aspects in reviews.
+cera-LADy evaluates synthetic review datasets for **implicit aspect detection** using four architecture models. It measures how well generated datasets (from CERA, heuristic baselines, or real data) enable models to detect latent aspects in reviews. An extension of the [LADy](https://github.com/fani-lab/LADy) framework, adapted for domain-agnostic category-based evaluation.
 
 **Architecture Models:**
 
@@ -182,23 +177,7 @@ The `{naspects}` directory corresponds to the `-naspects` flag (e.g., `86` for l
 
 ## Related Projects
 
-- [CERA](https://github.com/thangk/cera) — Context-Engineered Reviews Architecture (synthetic dataset generator)
 - [LADy](https://github.com/fani-lab/LADy) — Original LADy framework by fani-lab
-
----
-
-## Citation
-
-```bibtex
-@mastersthesis{thang2026cera,
-  title     = {CERA: Context-Engineered Reviews Architecture for
-               Synthetic ABSA Dataset Generation},
-  author    = {Thang, Kap},
-  school    = {University of Windsor},
-  year      = {2026},
-  type      = {Master's Thesis}
-}
-```
 
 ---
 
