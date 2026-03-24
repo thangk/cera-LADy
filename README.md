@@ -13,7 +13,7 @@
 
 ---
 
-> **Note:** This repository is under active development as part of an MSc thesis at the University of Windsor. A fork of the [LADy](https://github.com/fani-lab/LADy) framework, adapted for domain-agnostic category-based evaluation of [CERA](https://github.com/thangk/cera)-generated datasets.
+> **Note:** This repository is under active development as part of an MSc thesis at the University of Windsor. A fork of the [LADy](https://github.com/fani-lab/LADy) framework, adapted for domain-agnostic category-based evaluation of [CERA](https://github.com/project-cera/cera)-generated datasets.
 
 ---
 
@@ -182,7 +182,7 @@ The `{naspects}` directory corresponds to the `-naspects` flag (e.g., `86` for l
 
 ## Related Projects
 
-- [CERA](https://github.com/thangk/cera) — Context-Engineered Reviews Architecture (synthetic dataset generator)
+- [CERA](https://github.com/project-cera/cera) — Context-Engineered Reviews Architecture (synthetic dataset generator)
 - [LADy](https://github.com/fani-lab/LADy) — Original LADy framework by fani-lab
 
 ---
